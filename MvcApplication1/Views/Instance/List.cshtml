@@ -1,0 +1,46 @@
+﻿@model CloudScheduler.ViewModels.InstanceListVM
+
+@{
+    ViewBag.Title = "Instances";
+}
+
+<h2>My instance info</h2>
+<div>   
+    <table border ="1">
+        <tr>
+            <th>Name</th>
+            <th>ID</th>
+            <th>State</th>
+            <th>Times</th>
+            
+        </tr>   
+    @foreach (var instance in Model.CurrentInstanceList) {
+        <tr> 
+            <td>@instance.Name </td>
+            <td>@instance.Id </td>
+            <td>@instance.State (
+            @if (instance.State == "running")
+            {
+                <span>Start</span>
+                @Html.ActionLink("Stop", "StopInstance", new { Id = instance.Id })
+            }
+            else if (instance.State == "stopped")
+            {
+                @Html.ActionLink("Start", "StartInstance", new { Id = instance.Id })
+                <span>Stop</span>
+            }
+            else 
+            {
+                <span>Start</span>
+                <span>Stop</span>
+            }
+            )</td>
+            <td>
+                @instance.RunTime[0]:@instance.RunTime[1] -
+                @instance.EndTime[0]:@instance.EndTime[1]
+            </td>
+        </tr>       
+    }</table>
+</div>
+
+
