@@ -5,9 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace CloudScheduler.Infrastructure
+
 {
-    interface ICloudService
+    interface IScheduleRepository
     {
-        
+        void Encode(Instance instance);
+        Schedule Decode(Instance instance);
+        Schedule Default();
+
     }
 }

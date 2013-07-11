@@ -1,0 +1,54 @@
+﻿@model CloudScheduler.ViewModels.ScheduleVM
+
+@{
+    ViewBag.Title = "Edit";
+}
+@using (Html.BeginForm()){
+<div>
+    <h3>@Model.InstanceId</h3>
+    @Html.TextBoxFor(x => x.InstanceId,new { style="display:none" })
+    <table border ="1">
+        <tr>
+            <th>Monday</th>
+            <th>Tuesday</th>
+            <th>Wednesday</th>
+	        <th>Thursday</th>
+            <th>Friday</th>
+            <th>Saturday</th>
+            <th>Sunday</th>
+        </tr>
+        <tr>
+             <td>
+                 @Html.TextBoxFor(x => x.MonStart,new { style="width:50px" }) 
+                 @Html.TextBoxFor(x => x.MonEnd,new { style="width:50px" }) 
+            </td>
+            <td>
+                 @Html.TextBoxFor(x => x.TuesStart,new { style="width:50px" }) 
+                 @Html.TextBoxFor(x => x.TuesEnd,new { style="width:50px" }) 
+            </td>
+            <td>
+                 @Html.TextBoxFor(x => x.WedStart,new { style="width:50px" }) 
+                 @Html.TextBoxFor(x => x.WedEnd,new { style="width:50px" }) 
+            </td>
+            <td>
+                 @Html.TextBoxFor(x => x.ThurStart,new { style="width:50px" }) 
+                 @Html.TextBoxFor(x => x.ThurEnd,new { style="width:50px" }) 
+            </td>
+            <td>
+                 @Html.TextBoxFor(x => x.FriStart,new { style="width:50px" }) 
+                 @Html.TextBoxFor(x => x.FriEnd,new { style="width:50px" }) 
+            </td>
+            <td>
+                 @Html.TextBoxFor(x => x.SatStart,new { style="width:50px" }) 
+                 @Html.TextBoxFor(x => x.SatEnd,new { style="width:50px" }) 
+            </td>
+            <td>
+                 @Html.TextBoxFor(x => x.SunStart,new { style="width:50px" }) 
+                 @Html.TextBoxFor(x => x.SunEnd,new { style="width:50px" }) 
+            </td>
+        </tr>
+    </table>
+    <input type ="submit" value ="Save Changes" />
+    Elastic IP: @Html.TextBoxFor(x => x.ElasticIp,new { style="width:150px" })
+</div>    
+}

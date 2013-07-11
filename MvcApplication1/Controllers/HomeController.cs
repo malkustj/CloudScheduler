@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-
+//HomeController just redirects to the InstanceController
 namespace CloudScheduler.Controllers
 {
     public class HomeController : Controller

@@ -7,37 +7,51 @@ namespace CloudScheduler.Infrastructure
 {
     public class BackgroundJob
     {
-        AmazonService aws = new AmazonService();
         public BackgroundJob()
         {
-            execute();
+            Execute();
         }
-        public void execute()
+        public void Execute()
         {
-            var aws = new AmazonService();
-            List<Instance> Instances = aws.getInstanceList();
+            List<Instance> Instances = AmazonService.GetInstanceList();
+            var atr = new AWSTagRepository();
             foreach (Instance i in Instances)
             {
-                var instanceStartTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, i.RunTime[0], i.RunTime[1], DateTime.Now.Second);
-                var instanceStopTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, i.EndTime[0], i.EndTime[1], DateTime.Now.Second);
-                if (instanceStartTime.Hour.CompareTo(instanceStopTime.Hour) > 0)
+                if (i.State == "running" && AmazonService.ValidateElasticIp(i.Schedule.ElasticIp) != "")
                 {
-                    instanceStopTime.AddDays(1);
-                }
-                if (DateTime.Now.CompareTo(instanceStartTime) > 0 && DateTime.Now.CompareTo(instanceStopTime) <= 0 && i.Days.Contains(DateTime.Now.DayOfWeek))
-                {
-                    if (i.State != "running")
+                    if (AmazonService.GetElasticIpInstance(i.Schedule.ElasticIp) == "" || AmazonService.GetElasticIpInstance(i.Schedule.ElasticIp) == i.Id)
                     {
-                        aws.StartInstance(i.Id);
+                        AmazonService.AllocateElasticIp(i.Id, i.Schedule.ElasticIp);
+                    }
+                    else
+                    {
+                        i.Schedule.ElasticIp = "";
                     }
                 }
-                else
+                if (!(i.Schedule.Days[DateTime.Today.DayOfWeek].StartTime.Equals(i.Schedule.Days[DateTime.Today.DayOfWeek].StopTime) || !i.Schedule.IsActive))
                 {
-                    if (i.State != "stopped")
+                    var instanceStartTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, i.Schedule.Days[DateTime.Today.DayOfWeek].StartTime.Hour, i.Schedule.Days[DateTime.Today.DayOfWeek].StartTime.Minute, DateTime.Now.Second);
+                    var instanceStopTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, i.Schedule.Days[DateTime.Today.DayOfWeek].StopTime.Hour, i.Schedule.Days[DateTime.Today.DayOfWeek].StopTime.Minute, DateTime.Now.Second);
+                    if (instanceStartTime.Hour.CompareTo(instanceStopTime.Hour) > 0)
                     {
-                        aws.StopInstance(i.Id);
+                        instanceStopTime.AddDays(1);
+                    }
+                    if (DateTime.Now.CompareTo(instanceStartTime) > 0 && DateTime.Now.CompareTo(instanceStopTime) <= 0)
+                    {
+                        if (i.State == "stopped")
+                        {
+                            AmazonService.StartInstance(i.Id);
+                        }
+                    }
+                    else
+                    {
+                        if (i.State == "running")
+                        {
+                            AmazonService.StopInstance(i.Id);
+                        }
                     }
                 }
+                atr.Encode(i);
             } 
         }
     }

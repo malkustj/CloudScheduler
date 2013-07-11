@@ -4,7 +4,7 @@ to use a different color start by replacing all instances of
 #5c87b2 with your new color.
 ----------------------------------------------------------*/
 body {
-    background-color: #5c87b2;
+    background-color: #0064a4;
     font-size: .85em;
     font-family: "Trebuchet MS", Verdana, Helvetica, Sans-Serif;
     margin: 0;
@@ -13,21 +13,21 @@ body {
 }
 
 a:link {
-    color: #034af3;
+    color: #8B0E1F;
     text-decoration: underline;
 }
 
 a:visited {
-    color: #505abc;
+    color: #8B0E1F;
 }
 
 a:hover {
-    color: #1d60ff;
+    color: #8B0E1F;
     text-decoration: none;
 }
 
 a:active {
-    color: #12eb87;
+    color: #8B0E1F;
 }
 
 p, ul {
@@ -215,20 +215,20 @@ input[type="submit"] {
 ----------------------------------------------------------*/
 
 table {
-    border: solid 1px #e8eef4;
+    border: solid 1px #959595;
     border-collapse: collapse;
 }
 
 table td {
     padding: 5px;
-    border: solid 1px #e8eef4;
+    border: solid 1px #959595;
 }
 
 table th {
     padding: 6px 5px;
     text-align: left;
-    background-color: #e8eef4;
-    border: solid 1px #e8eef4;
+    background-color: #959595;
+    border: solid 1px #959595;
 }
 
 /* MISC  

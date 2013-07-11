@@ -7,12 +7,12 @@ namespace CloudScheduler.Infrastructure
 {
     public class Instance
     {
-        public Instance(int[] run, int[] end)
-        {
-            RunTime = run;
-            EndTime = end;
-        }
         public Instance(){ }
+
+        public Instance(string code) {
+            Id = code.Split(';')[0];
+            Schedule = new Schedule(code.Split(';')[1]);
+        }
 
         public string Name { get; set; }
 
@@ -20,11 +20,10 @@ namespace CloudScheduler.Infrastructure
 
         public string State { get; set; }
 
-        public int[] RunTime{ get; set; }
+        public Schedule Schedule { get; set; }
 
-        public int[] EndTime{ get; set; }
+        public string ElasticIP { get; set; }
 
-        public List<DayOfWeek> Days { get; set; }
 
     }
 }

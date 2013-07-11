@@ -10,34 +10,61 @@
         <tr>
             <th>Name</th>
             <th>ID</th>
+            <th>Elastic Ip</th>
             <th>State</th>
-            <th>Times</th>
-            
+            <th>Current Window</th>
+            <th>Schedule</th>
+            <th>Actions</th>
         </tr>   
     @foreach (var instance in Model.CurrentInstanceList) {
         <tr> 
             <td>@instance.Name </td>
             <td>@instance.Id </td>
-            <td>@instance.State (
+            <td>@if (instance.Schedule.ElasticIp == "")
+                {
+                    <span>N/A</span>
+                }
+                else
+                {
+                    @instance.Schedule.ElasticIp
+                }
+            </td>
+            <td>@instance.State</td>
+            <td>
+                @instance.Schedule.Days[DateTime.Today.DayOfWeek].ToString()
+            </td>
+            <td>
+                @if (instance.Schedule.IsActive)
+                {
+                    <span>Active</span>
+                }
+                else
+                {
+                    <span>Inactive</span>
+                }
+            </td>
+            <td>
             @if (instance.State == "running")
             {
-                <span>Start</span>
                 @Html.ActionLink("Stop", "StopInstance", new { Id = instance.Id })
             }
             else if (instance.State == "stopped")
             {
                 @Html.ActionLink("Start", "StartInstance", new { Id = instance.Id })
-                <span>Stop</span>
             }
             else 
             {
-                <span>Start</span>
-                <span>Stop</span>
+                <span>N/A</span>
             }
-            )</td>
-            <td>
-                @instance.RunTime[0]:@instance.RunTime[1] -
-                @instance.EndTime[0]:@instance.EndTime[1]
+             - @Html.ActionLink("Edit", "Edit", new { Id = instance.Id }) - 
+                @if (instance.Schedule.IsActive)
+                {
+                    <span>@Html.ActionLink("Deactivate", "DeactivateSchedule", new { Id = instance.Id })</span>
+                }
+                else
+                {
+                    <span>@Html.ActionLink("Activate", "ActivateSchedule", new { Id = instance.Id })</span>
+                }
             </td>
         </tr>       
     }</table>
