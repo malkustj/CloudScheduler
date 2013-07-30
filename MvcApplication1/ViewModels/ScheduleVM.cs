@@ -13,6 +13,7 @@ namespace CloudScheduler.ViewModels
             InstanceId = i.Id;
             Schedule s = i.Schedule;
             ElasticIp = s.ElasticIp;
+            Active = s.IsActive;
             MonStart = s.Days[DayOfWeek.Monday].StartTime.ToString();
             MonEnd = s.Days[DayOfWeek.Monday].StopTime.ToString();
             TuesStart = s.Days[DayOfWeek.Tuesday].StartTime.ToString();
@@ -60,9 +61,16 @@ namespace CloudScheduler.ViewModels
 
         public string SunEnd { get; set; }
 
+        public bool Active { get; set; }
+
         public string InstanceString()
         {
-            string inst = MonStart + "|" + MonEnd + "," + TuesStart + "|" + TuesEnd + "," + WedStart + "|" + WedEnd + "," + ThurStart + "|" + ThurEnd + "," + FriStart + "|" + FriEnd + "," + SatStart + "|" + SatEnd + "," + SunStart + "|" + SunEnd + ",," + ElasticIp;
+            string inst = MonStart + "|" + MonEnd + "," + TuesStart + "|" + TuesEnd + "," + WedStart + "|" + WedEnd + "," + ThurStart + "|" + ThurEnd + "," + FriStart + "|" + FriEnd + "," + SatStart + "|" + SatEnd + "," + SunStart + "|" + SunEnd+ ",";
+            if (!Active)
+            {
+                inst += "#";
+            }
+            inst += "," + ElasticIp;
             return inst;
         }
 

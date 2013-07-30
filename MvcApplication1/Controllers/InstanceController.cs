@@ -26,12 +26,12 @@ namespace CloudScheduler.Controllers
         public ActionResult StartInstance(string Id)
         {
             AmazonService.StartInstance(Id);
-            return RedirectToAction("List");
+            return RedirectToAction("DeactivateSchedule", new { Id = Id });
         }
         public ActionResult StopInstance(string Id)
         {
             AmazonService.StopInstance(Id);
-            return RedirectToAction("List");
+            return RedirectToAction("DeactivateSchedule", new { Id = Id });
         }
         public ActionResult DeactivateSchedule(String Id)
         {

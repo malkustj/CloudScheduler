@@ -8,7 +8,7 @@ namespace CloudScheduler.Infrastructure
     public class AWSTagRepository : IScheduleRepository 
     {
         
-        public string DefaultSchedule = "8:00|18:00,8:00|18:00,8:00|18:00,8:00|18:00,8:00|18:00,0:00|0:00,0:00|0:00,,";
+        public string DefaultSchedule = "8:00|18:00,8:00|18:00,8:00|18:00,8:00|18:00,8:00|18:00,0:00|0:00,0:00|0:00,#,";
         public Schedule Default()
         {
             return new Schedule(DefaultSchedule);
@@ -20,6 +20,7 @@ namespace CloudScheduler.Infrastructure
         public Schedule Decode(Instance instance)
         {
             Schedule schedule;
+            string test1 = AmazonService.ReadTag(instance.Id, "Schedule");
             if (AmazonService.ReadTag(instance.Id, "Schedule") != "")
             {
                 try

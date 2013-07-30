@@ -131,11 +131,19 @@ namespace CloudScheduler.Infrastructure
                             Key = tagName,
                             Value = newValue
                         };
+                        newTagList.Add(t);
                     }
                     CreateTagsRequest ctr = new CreateTagsRequest();
                     ctr.WithTag(newTagList.ToArray());
                     ctr.WithResourceId(id);
-                    EC2.CreateTags(ctr);
+                    try
+                    {
+                        EC2.CreateTags(ctr);
+                    }
+                    catch (Exception e)
+                    {
+                        WriteToTag(id, tagName, newValue, force);
+                    }
                     break;
                 }
             }

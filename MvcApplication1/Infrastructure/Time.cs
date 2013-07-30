@@ -21,8 +21,25 @@ namespace CloudScheduler.Infrastructure
         }
         public Time(string t)
         {
-            Hour = int.Parse(t.Split(':')[0]);
-            Minute = int.Parse(t.Split(':')[1]);
+            try
+            {
+                Hour = Math.Abs(int.Parse(t.Split(':')[0]));
+                Minute = Math.Abs(int.Parse(t.Split(':')[1]));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Hour = 0;
+                Minute = 0;
+            }
+            if (Hour > 23)
+            {
+                Hour = 23;
+            }
+            if (Minute > 59)
+            {
+                Minute = 59;
+            }
         }
         public int Hour { get; set; }
         
